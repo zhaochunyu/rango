@@ -6,7 +6,7 @@
 
 ## 结构
 
-数据库：mysql
+数据库：mysql<br>
 语言：java
 框架：springMVC
 页面：Bootstrap
