@@ -18,4 +18,15 @@
 <url-pattern>/hello</url-pattern> 
 </servlet-mapping>
 
+
+<context-param>
+<param-name>socketPort</param-name>
+<param-value>4800</param-value>
+</context-param>
+<listener>
+<description>Socket 服务随web 启动而启动</description>
+<listener-class>com.yeepay.socket.SocketServer</listener-class>
+</listener>
+
+
 </web-app>
