@@ -9,10 +9,57 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class FtpServer extends Thread {
+import javax.servlet.ServletContext;
+
+import com.yeepay.socket.ProcessSocketData;
+
+public class FtpServer extends Thread  {
+//	******************
+	private ServletContext servletContext;
+	private ServerSocket serverSocket;
+	public FtpServer(ServerSocket serverSocket, ServletContext servletContext) {
+	this.servletContext = servletContext;
+	// 从web.xml中context-param节点获取socket端口
+	String port = this.servletContext.getInitParameter("socketPort");
+	if (serverSocket == null) {
+	try {
+	this.serverSocket = new ServerSocket(Integer.parseInt(port));
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	}
+	}
+	
+	
+	public void run() {
+	while (!this.isInterrupted()) { // 线程未中断执行循环
+	try {
+	Socket socket = serverSocket.accept();
+	
+	
+	if (socket != null)
+	new ProcessSocketData(socket, this.servletContext).start();
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	}
+	}
+	
+	
+	public void closeServerSocket() {
+	try {
+	if (serverSocket != null && !serverSocket.isClosed())
+	serverSocket.close();
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	}
+
+	
+//	***********************
 	private Socket socketClient;
 	private int counter;
-	public static String initDir; // 保存服务器线程运行时所在的工作目录
+	public static String initDir="/home/chunchun/ftptest"; // 保存服务器线程运行时所在的工作目录
 	public static ArrayList users = new ArrayList();
 	public static ArrayList usersInfo = new ArrayList();
 

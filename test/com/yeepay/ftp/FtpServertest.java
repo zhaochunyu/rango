@@ -9,6 +9,5 @@ public class FtpServertest {
 			initDir = "/home/chunchun/ftptest";
 		}
 		FtpServer ftpServer = new FtpServer();
-
 	}
 }
